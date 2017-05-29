@@ -1,0 +1,76 @@
+<!--The 'step_code' value from the .js file should be used-->
+<li id="login" data-bind="fadeVisible: isVisible">
+    <div class="step-title" data-bind="i18n: 'Login'" data-role="title"></div>
+    <div id="checkout-step-title"
+         class="step-content"
+         data-role="content">
+        <!-- ko foreach: getRegion('before-login-form') -->
+        <!-- ko template: getTemplate() --><!-- /ko -->
+        <!-- /ko -->
+        <form class="form form-login" data-bind="submit: setCustomerInformation" data-role="email-with-possible-login" method="post">
+            <fieldset id="customer-email-fieldset" class="fieldset" data-bind="blockLoader: isLoading">
+                <div class="field required">
+                    <label class="label" for="customer-email">
+                        <span data-bind="i18n: 'Email Address'"></span>
+                    </label>
+                    <div class="control _with-tooltip">
+                        <input class="input-text"
+                               type="email"
+                               data-bind="
+                            textInput: email,
+                            hasFocus: emailFocused"
+                               name="username"
+                               data-validate="{required:true, 'validate-email':true}"
+                               id="customer-email" />
+                    </div>
+                </div>
+
+                <div class="field">
+                    <div class="control">
+                        <div class="radio-login-type guest">
+                            <input id="login-type-guest" class="radio" type="radio" name="login_type" value="guest" data-bind="checked: isEmailExisted, checkedValue: false">
+                            <label for="login-type-guest"><span data-bind="i18n: 'I have not account'"></span></label>
+                        </div>
+                        <div class="radio-login-type customer">
+                            <input id="login-type-customer" class="radio" type="radio" name="login_type" value="customer" data-bind="checked: isEmailExisted, checkedValue: true">
+                            <label for="login-type-customer"><span data-bind="i18n: 'I already have an account'"></span></label>
+                        </div>
+                    </div>
+                </div>
+
+                <fieldset class="fieldset">
+                    <div class="field">
+                        <label class="label" for="customer-password">
+                            <span data-bind="i18n: 'Password'"></span>
+                        </label>
+                        <div class="control">
+                            <input class="input-text"
+                                   placeholder="Type your password here"
+                                   type="password"
+                                   name="password"
+                                   id="customer-password"
+                                   data-bind="attr: {readonly: !isEmailExisted()}"
+                                   data-validate="{required:true}" autocomplete="off"/>
+                        </div>
+                    </div>
+                    <div class="forgot-password">
+                        <a class="action remind" data-bind="attr: { href: forgotPasswordUrl }">
+                            <span data-bind="i18n: 'Forgot Your Password?'"></span>
+                        </a>
+                    </div>
+                    <!-- ko foreach: getRegion('additional-login-form-fields') -->
+                    <!-- ko template: getTemplate() --><!-- /ko -->
+                    <!-- /ko -->
+                </fieldset>
+
+            </fieldset>
+
+            <div class="actions-toolbar">
+                <input name="context" type="hidden" value="checkout" />
+                <div class="primary">
+                    <button type="submit" class="action login primary"><span data-bind="text: (isEmailExisted() == true) ? 'Login' : 'Next'"></span></button>
+                </div>
+            </div>
+        </form>
+    </div>
+</li>
